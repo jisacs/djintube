@@ -107,7 +107,6 @@ def getPlaylistVideoUrls(page_content, url):
 def download_Video_Audio(path, vid_url, file_no):
     try:
         yt = YouTube(vid_url)
-        print('debug 1')
     except Exception as e:
         print("Error:", str(e), "- Skipping Video with url '"+vid_url+"'.")
         return
@@ -115,10 +114,8 @@ def download_Video_Audio(path, vid_url, file_no):
     try:  # Tries to find the video in 720p
         #video = yt.get('mp4', '720p')
         video = yt.streams.filter(progressive = True, file_extension = "mp4").first()
-        print('debug 2')
     except Exception:  # Sorts videos by resolution and picks the highest quality video if a 720p video doesn't exist
         try:
-            print('debug 3' )
             video = sorted(yt.filter("mp4"), key=lambda video: int(video.resolution[:-1]), reverse=True)[0]
         except Exception as e:  # Sorts videos by resolution and picks the highest quality video if a 720p video doesn't exist
             print(f'Exception during download {e}')
